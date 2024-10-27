@@ -41,6 +41,13 @@ class ProductSmallCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       product.images!.first,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(
+                          Icons.image_not_supported_sharp,
+                          color: kGrey,
+                          size: 25,
+                        );
+                      },
                     ),
                   ),
                 ),

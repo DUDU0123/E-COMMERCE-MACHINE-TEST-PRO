@@ -16,7 +16,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     required GetAllProductsUsecase getAllProductsUsecase,
     required GetProductsByCategoryUsecase getProductsByCategoryUsecase,
     required GetProductsByQueryUsecase getProductsByQueryUsecase,
-    
   })  : _getAllProductsUsecase = getAllProductsUsecase,
         _getProductsByCategoryUsecase = getProductsByCategoryUsecase,
         _getProductsByQueryUsecase = getProductsByQueryUsecase,
@@ -25,7 +24,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<GetAllProductByQueryEvent>(getAllProductByQueryEvery);
     on<GetAllProductByCategoryEvent>(getAllProductByCategoryEvent);
     on<SearchEvent>(searchEvent);
-    on<GetCurrentCategory>(getCurrentCategory);
   }
   FutureOr<void> getAllProducts(
       GetAllProducts event, Emitter<ProductState> emit) async {
@@ -37,7 +35,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           emit(ProductErrorState(message: failure.message));
         },
         (productList) {
-          emit(state.copyWith(productsList: productList, isSearchFieldEmpty: true));
+          emit(state.copyWith(
+              productsList: productList, isSearchFieldEmpty: true));
         },
       );
     } catch (e) {
@@ -57,7 +56,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         },
         (productList) {
           emit(state.copyWith(
-            productsList: productList,
+            productsList: productList.isNotEmpty? productList:state.productsList,
           ));
         },
       );
@@ -79,6 +78,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           emit(state.copyWith(
             productsList: productList,
             currentCategory: event.categoryName,
+            isSearchFieldEmpty: true,
           ));
         },
       );
@@ -92,18 +92,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       if (event.val.isNotEmpty) {
         add(GetAllProductByQueryEvent(query: event.val));
       } else {
-        emit(state.copyWith(
-          productsList: state.productsList,
-          isSearchFieldEmpty: true,
-        ));
+        add(GetAllProducts());
       }
     } catch (e) {
       emit(ProductErrorState(message: e.toString()));
     }
-  }
-
-  FutureOr<void> getCurrentCategory(
-      GetCurrentCategory event, Emitter<ProductState> emit) {
-    emit(state.copyWith(currentCategory: event.categoryName));
   }
 }

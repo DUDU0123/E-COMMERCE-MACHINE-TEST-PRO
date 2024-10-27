@@ -40,11 +40,12 @@ class MessageShowhelper {
  static void showSnackbar({
     required String snackBarContent,
   }) {
-    ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+    ScaffoldMessenger.of(navigatorKey.currentContext!)..hideCurrentSnackBar()..showSnackBar(
       SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: TextWidgetCommon(
           text: snackBarContent,textColor: kWhite,
-          fontSize: 18,
+          fontSize: 15,
         ),
         backgroundColor: kBlack,
         duration: const Duration(seconds: 2,),

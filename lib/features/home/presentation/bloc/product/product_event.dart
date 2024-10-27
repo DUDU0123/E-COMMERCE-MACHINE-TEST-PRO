@@ -22,15 +22,6 @@ class GetAllProductByCategoryEvent extends ProductEvent {
       ];
 }
 
-class GetCurrentCategory extends ProductEvent {
-  final String categoryName;
-  const GetCurrentCategory({
-    required this.categoryName,
-  });
-  @override
-  List<Object> get props => [categoryName,];
-}
-
 class GetAllProductByQueryEvent extends ProductEvent {
   final String query;
   const GetAllProductByQueryEvent({
