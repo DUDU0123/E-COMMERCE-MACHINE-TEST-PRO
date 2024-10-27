@@ -1,6 +1,3 @@
-import 'package:moboom_ecommerce_app/core/enums/enums.dart';
-import 'package:moboom_ecommerce_app/core/utils/common_functions.dart';
-
 class Constants {
   static List<String> categories = [
     "Fragrances",
